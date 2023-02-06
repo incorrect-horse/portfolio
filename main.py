@@ -30,18 +30,28 @@ col3, empty_col, col4 = st.columns([1.5, 0.5, 1.5])
 
 df = pandas.read_csv("data.csv", sep=";")
 
+count_rows = 0
+for index, row in df.iterrows():
+    count_rows += 1
+
+rows_to_col = count_rows // 2 #floor division
+
+rows_col3 = rows_to_col
+rows_col4 = rows_to_col + rows_col3
+
+if count_rows / 2 != count_rows // 2:
+    rows_col3 += 1
+
 with col3:
-    for index, row in df[:10].iterrows():
+    for index, row in df[:rows_col3].iterrows():
         st.header(row["title"])
         st.write(row["description"])
         st.image("images/" + row["image"])
         st.write(f"[Source Code]({row['url']})")
-        #st.write(content1)
 
 with col4:
-    for index, row in df[10:].iterrows():
+    for index, row in df[rows_col3:].iterrows():
         st.header(row["title"])
         st.write(row["description"])
         st.image("images/" + row["image"])
         st.write(f"[Source Code]({row['url']})")
-        #st.write(content1)
